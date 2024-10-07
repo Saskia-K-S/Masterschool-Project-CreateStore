@@ -40,8 +40,13 @@ def make_an_order(store: Store):
             break
         if int(product_choice) > len(products) or int(product_choice) < 1:
             print("Error adding product.")
+            break
         else:
-            shopping_cart.append((products[int(product_choice) - 1], int(quantity_choice)))
+            product = products[int(product_choice) - 1]
+            if int(quantity_choice) > product.get_quantity() or int(quantity_choice) <= 0:
+                print("Error adding the product.")
+                break
+            shopping_cart.append((product, int(quantity_choice)))
             print("Product added to list!")
 
     total_price_of_order = store.order(shopping_cart)
