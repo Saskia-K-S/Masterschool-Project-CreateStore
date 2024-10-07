@@ -26,7 +26,6 @@ def show_amount_in_store(store: Store):
 
 def make_an_order(store: Store):
     products = store.get_all_products()
-    print(len(products))
     shopping_cart = []
     list_all_products(store)
     print("When you want to finish order, enter empty text.")
