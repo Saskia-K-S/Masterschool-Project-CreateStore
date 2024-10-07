@@ -1,9 +1,22 @@
 class Product:
     def __init__(self, name, price, quantity):
+
+        if not isinstance(name, str):
+            raise TypeError("Name should be a string.")
+        if not name.strip():
+            raise ValueError("Invalid name or string. Empty string cannot be accepted as a name.")
+        if not isinstance(price, (float, int)):
+            raise TypeError("Price should be of type float or integer.")
+        if price < 0:
+            raise ValueError("Price cannot be negative.")
+        if not isinstance(quantity, int):
+            raise TypeError("Quantity should be of type integer.")
+        if quantity < 0:
+            raise ValueError("Quantity cannot be negative.")
+
         self.name = name
         self.price = price
         self.quantity = quantity
-
         self.active = True
 
     def is_active(self):
@@ -23,8 +36,11 @@ class Product:
         return f"Product name: {self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
     def set_quantity(self, quantity):
+        if not isinstance(quantity, int):
+            raise TypeError("Quantity should be of type integer.")
+        if quantity < 0:
+            raise ValueError("Quantity cannot be negative.")
         self.quantity = quantity
-        # todo: deactivate product if quantity is zero
         if quantity == 0:
             self.deactivate()
 
@@ -33,29 +49,18 @@ class Product:
         Buys a given quantity of the product.
         Returns the total price (float) of the purchase.
         Updates the quantity of the product.
-        In case of a problem (when? think about it), raises an Exception.
+        In case of a problem, raises an Exception.
         :param quantity:
         :return: total_price
         """
+        if not isinstance(quantity, int):
+            raise TypeError(f"Quantity is not an integer. Found {type(quantity).__name__}")
+        if quantity <= 0:
+            raise ValueError("Quantity needs to be greater than zero.")
+        if self.quantity < quantity:
+            raise ValueError("The chosen number of the product is currently not in stock.")
 
         total_price = self.price * quantity
         self.set_quantity(self.quantity - quantity)
+
         return total_price
-
-def main():
-    bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-    mac = Product("MacBook Air M2", price=1450, quantity=100)
-
-    print(bose.buy(50))
-    print(mac.buy(100))
-    print(mac.is_active())
-
-    bose.show()
-    mac.show()
-
-    bose.set_quantity(1000)
-    bose.show()
-
-
-if __name__ == "__main__":
-    main()

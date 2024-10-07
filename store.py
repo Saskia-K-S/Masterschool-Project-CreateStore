@@ -4,11 +4,17 @@ from typing import List, Tuple
 
 class Store:
     def __init__(self, list_of_products):
+        if not isinstance(list_of_products, list):
+            raise TypeError("List of products should be of type list.")
+        for product in list_of_products:
+            if not isinstance(product, Product):
+                raise TypeError("Product needs to me an instance of class Product.")
+
         self.products = list_of_products  # need to find unique products from the list
 
     def add_product(self, product):
         if not isinstance(product, Product):
-            raise TypeError("Expected and object of the Product class. Error.")
+            raise TypeError("Expected an object of the Product class. Error.")
 
         if product in self.products:
             product.set_quantity(product.get_quantity() + 1)
@@ -40,24 +46,13 @@ class Store:
         return list_of_active_products
 
     def order(self, shopping_list: List[Tuple[Product, int]]) -> float:
+        for product, quantity in shopping_list:
+            if product not in self.products:
+                raise ValueError(f"The product {product.name} is currently not available in store.")
+            if not product.is_active():
+                raise ValueError(f"The product {product.name} is currently not active.")
         total_price_of_order = 0
         for product, quantity in shopping_list:
             total_price_of_order += product.buy(quantity)
 
         return total_price_of_order
-
-
-def main():
-    product_list = [Product("MacBook Air M2", price=1450, quantity=100),
-                    Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                    Product("Google Pixel 7", price=500, quantity=250),
-                    ]
-
-    store = Store(product_list)
-    products = store.get_all_products()
-    print(store.get_total_quantity())
-    print(store.order([(products[0], 1), (products[1], 2)]))
-
-
-if __name__ == "__main__":
-    main()
