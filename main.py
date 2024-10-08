@@ -33,28 +33,30 @@ def make_an_order(store: Store):
         product_choice = input("Which product # do you want? ")
         quantity_choice = input("What amount do you want? ")
 
-        # if int(product_choice) > len(products) or int(product_choice) < 1:
-        #    raise ValueError("Invalid product choice.")
         if product_choice == "" or quantity_choice == "":
             break
-        if int(product_choice) > len(products) or int(product_choice) < 1:
-            print("Error adding product.")
-            break
-        else:
-            product = products[int(product_choice) - 1]
-            if int(quantity_choice) > product.get_quantity() or int(quantity_choice) <= 0:
-                print("Error adding the product.")
-                break
-            shopping_cart.append((product, int(quantity_choice)))
+        try:
+            product_index = int(product_choice)-1
+            quantity = int(quantity_choice)
+            if product_index >= len(products) or product_index < 0:
+                print("Error adding product. Please make a valid product choice.")
+                continue
+            product = products[product_index]
+            if quantity > product.get_quantity() or quantity <= 0:
+                print("Error adding the product due to invalid quantity.")
+                continue
+
+            shopping_cart.append((product, quantity))
             print("Product added to list!")
+        except ValueError as v:
+            print(f"Please enter valid numeric value. An error occurred: {v}")
 
     total_price_of_order = store.order(shopping_cart)
     print("*" * 42)
     print(f"Order made! Total payment of the order is: {total_price_of_order}$.")
 
 
-# needs work
-def quit():
+def quit_shopping():
     sys.exit()
 
 
@@ -67,7 +69,7 @@ def start(store: Store):
         "1": (list_all_products, store),
         "2": (show_amount_in_store, store),
         "3": (make_an_order, store),
-        "4": (quit,)
+        "4": (quit_shopping,)
     }
     while True:
         print(MENU)
@@ -86,4 +88,5 @@ def main():
     start(best_buy)
 
 
-main()
+if __name__ == "__main__":
+    main()
