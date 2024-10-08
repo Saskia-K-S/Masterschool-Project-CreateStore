@@ -11,6 +11,10 @@ MENU = """
 
 
 def list_all_products(store: Store):
+    """
+    Lists all active products.
+    :param store: An instance of Store.
+    """
     list_of_active_products = store.get_all_products()
     if not list_of_active_products:
         print("Currently, all products are sold out.")
@@ -20,11 +24,22 @@ def list_all_products(store: Store):
 
 
 def show_amount_in_store(store: Store):
+    """
+    Displays the current active quantity of products in Store.
+    :param store: Instance of Store.
+    """
     total_quantity = store.get_total_quantity()
     print(f"There is a total quantity of {total_quantity} in the store currently.")
 
 
 def make_an_order(store: Store):
+    """
+    User input management; Oder products and quantity; Error handling, such as
+    - Ordering a quantity too large
+    - Product that runs out of stock
+    - Products that is created with invalid parameters
+    :param store: Instance of Store.
+    """
     products = store.get_all_products()
     shopping_cart = []
     list_all_products(store)
@@ -57,14 +72,27 @@ def make_an_order(store: Store):
 
 
 def quit_shopping():
+    """
+    Used to quit the shopping process.
+    """
     sys.exit()
 
 
 def call_function(func, *args):
+    """
+    Calls functions with the given arguments. Used for user choice menu.
+    :param func: function.
+    :param args: given arguments from menu_dictionary.
+    """
     func(*args)
 
 
 def start(store: Store):
+    """
+    Displays the menu for user choice using a dispatcher pattern and starts the shopping store.
+    :param store: Instance of Store.
+    :return: user choice menu.
+    """
     menu_dictionary = {
         "1": (list_all_products, store),
         "2": (show_amount_in_store, store),
