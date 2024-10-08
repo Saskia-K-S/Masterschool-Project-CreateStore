@@ -1,3 +1,6 @@
+"""
+Product Class.
+"""
 class Product:
     def __init__(self, name, price, quantity):
 
@@ -36,6 +39,10 @@ class Product:
         return f"Product name: {self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
     def set_quantity(self, quantity):
+        """
+        Sets the quantity of the product.
+        :param quantity: Instance of Class Product.
+        """
         if not isinstance(quantity, int):
             raise TypeError("Quantity should be of type integer.")
         if quantity < 0:
@@ -50,7 +57,7 @@ class Product:
         Returns the total price (float) of the purchase.
         Updates the quantity of the product.
         In case of a problem, raises an Exception.
-        :param quantity:
+        :param quantity: Instance of class Product.
         :return: total_price
         """
         if not isinstance(quantity, int):
