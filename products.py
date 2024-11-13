@@ -1,6 +1,8 @@
 """
 Product Class.
 """
+
+
 class Product:
     def __init__(self, name, price, quantity):
 
@@ -71,3 +73,51 @@ class Product:
         self.set_quantity(self.quantity - quantity)
 
         return total_price
+
+
+"""
+NonStockedProduct Class.
+"""
+
+
+class NonStockedProduct(Product):
+    def __init__(self, name, price):
+        super().__init__(name, price, quantity=0)
+
+    def show(self):
+        return f"Non stocked product name: {self.name}, Price: {self.price}, Quantity: is not applicable."
+
+
+"""
+LimitedProduct
+"""
+
+
+class LimitedProduct(Product):
+    def __init__(self, name, price, quantity, maximum):
+        super().__init__(name, price, quantity)
+        self.maximum = maximum
+
+    def buy(self, quantity):
+        if quantity > self.maximum:
+            raise ValueError(f"The quantity cannot exceed the available quantity of {self.maximum}.")
+
+        return super().buy(quantity)
+
+    def show(self):
+        return f"Limited product: {self.name}, Price: {self.price}, Maximal purchase quantity: {self.maximum}."
+
+
+import store
+def main():
+    # setup initial stock of inventory
+    product_list = [Product("MacBook Air M2", price=1450, quantity=100),
+                    Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                    Product("Google Pixel 7", price=500, quantity=250),
+                    NonStockedProduct("Windows License", price=125),
+                    LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
+                    ]
+    best_buy = store.Store(product_list)
+
+if __name__ == "__main__":
+    main()
