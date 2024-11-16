@@ -4,6 +4,8 @@ from typing import List, Tuple
 """
 Class Store
 """
+
+
 class Store:
     def __init__(self, list_of_products):
         """
@@ -11,12 +13,13 @@ class Store:
         Sets product instance variable.
         :param list_of_products: Instance of class Store.
         """
+        """
         if not isinstance(list_of_products, list):
             raise TypeError("List of products should be of type list.")
         for product in list_of_products:
-            if not isinstance(product, (Product,NonStockedProduct ,LimitedProduct)):
-                raise TypeError("Product needs to me an instance of class Product.")
-
+            if not isinstance(product, (Product, NonStockedProduct, LimitedProduct)):
+                raise TypeError("Product needs to be an instance of class Product.")
+        """
         self.products = list_of_products  # need to find unique products from the list
 
     def add_product(self, product):
