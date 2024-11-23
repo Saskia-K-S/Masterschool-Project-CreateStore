@@ -23,7 +23,7 @@ def list_all_products(store: Store):
         print("Currently, all products are sold out.")
     else:
         for index, product in enumerate(list_of_active_products):
-            print(f"{index + 1}. {product.show()}")
+            print(f"{index + 1}. {product}")
 
 
 def show_amount_in_store(store: Store):
@@ -49,9 +49,9 @@ def make_an_order(store: Store):
     print("When you want to finish order, enter empty text.")
     while True:
         product_choice = input("Which product # do you want? ")
-        quantity_choice = input("What amount do you want? ")
+        quantity_choice = input("What amount do you want? ") # needs to be relocated
 
-        if product_choice == "" or quantity_choice == "":
+        if product_choice == "":
             break
         try:
             product_index = int(product_choice)-1
@@ -60,7 +60,7 @@ def make_an_order(store: Store):
                 print("Error adding product. Please make a valid product choice.")
                 continue
             product = products[product_index]
-            if quantity > product.get_quantity() or quantity <= 0:
+            if isinstance(product.quantity, int) and (quantity > product.quantity or quantity <= 0):
                 print("Error adding the product due to invalid quantity.")
                 continue
 

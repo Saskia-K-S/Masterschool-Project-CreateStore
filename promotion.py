@@ -10,13 +10,19 @@ class Promotion(ABC):
 
         self.promotion_name = promotion_name
     @abstractmethod
-    def apply_promotion(self ,product ,quantity):
+    def apply_promotion(self, product, quantity):
         """
         returns the promoted price after promotion
         :param product:
         :param quantity:
         :return: promoted price after promotion
         """
+
+    def __str__(self):
+        return self.promotion_name
+
+    def __repr__(self):
+        return f"{type(self).__name__}({self.promotion_name})"
 
 
 class PercentDiscount(Promotion):

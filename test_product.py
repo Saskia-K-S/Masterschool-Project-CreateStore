@@ -34,7 +34,7 @@ def test_create_product_invalid():
 
 def test_becomes_inactive():
     product = Product("Game boy color", price=30, quantity=1)
-    product.set_quantity(0)
+    product.quantity(0)
 
     assert product.is_active() is False
 
@@ -44,7 +44,7 @@ def test_modify_right_output():
     total_price = product.buy(5)
 
     assert total_price == 150
-    assert product.get_quantity() == 5
+    assert product.quantity() == 5
     assert product.is_active() is True
 
 
