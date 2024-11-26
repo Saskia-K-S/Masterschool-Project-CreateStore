@@ -1,6 +1,9 @@
 import sys
 from store import Store
-from products import Product
+from products import Product, NonStockedProduct, LimitedProduct
+from promotion import Promotion, SecondHalfPrice, ThirdOneFree, PercentDiscount
+
+import promotion
 
 MENU = """
 1. List all products in store
@@ -20,7 +23,7 @@ def list_all_products(store: Store):
         print("Currently, all products are sold out.")
     else:
         for index, product in enumerate(list_of_active_products):
-            print(f"{index + 1}. {product.show()}")
+            print(f"{index + 1}. {product}")
 
 
 def show_amount_in_store(store: Store):
@@ -46,9 +49,9 @@ def make_an_order(store: Store):
     print("When you want to finish order, enter empty text.")
     while True:
         product_choice = input("Which product # do you want? ")
-        quantity_choice = input("What amount do you want? ")
+        quantity_choice = input("What amount do you want? ") # needs to be relocated
 
-        if product_choice == "" or quantity_choice == "":
+        if product_choice == "":
             break
         try:
             product_index = int(product_choice)-1
@@ -57,7 +60,7 @@ def make_an_order(store: Store):
                 print("Error adding product. Please make a valid product choice.")
                 continue
             product = products[product_index]
-            if quantity > product.get_quantity() or quantity <= 0:
+            if isinstance(product.quantity, int) and (quantity > product.quantity or quantity <= 0):
                 print("Error adding the product due to invalid quantity.")
                 continue
 
@@ -110,8 +113,21 @@ def main():
     # setup initial stock of inventory
     product_list = [Product("MacBook Air M2", price=1450, quantity=100),
                     Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                    Product("Google Pixel 7", price=500, quantity=250)
+                    Product("Google Pixel 7", price=500, quantity=250),
+                    NonStockedProduct("Windows License", price=125),
+                    LimitedProduct("Shipping", price=10, quantity=100, maximum=1),
                     ]
+
+    # Create promotion catalog
+    second_half_price = SecondHalfPrice("Second Half price!")
+    third_one_free = ThirdOneFree("Third One Free!")
+    thirty_percent = PercentDiscount("30% off!", percent_value=30)
+
+    # Add promotions to products
+    product_list[0].set_promotion(second_half_price)
+    product_list[1].set_promotion(third_one_free)
+    product_list[3].set_promotion(thirty_percent)
+
     best_buy = Store(product_list)
     start(best_buy)
 

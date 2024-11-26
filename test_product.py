@@ -1,13 +1,3 @@
-"""
-TODO
-
-Using the library pytest, create the following tests (Remember - each test should have it’s own function):
-Test that creating a normal product works.
-Test that creating a product with invalid details (empty name, negative price) invokes an exception.
-Test that when a product reaches 0 quantity, it becomes inactive.
-Test that product purchase modifies the quantity and returns the right output.
-Test that buying a larger quantity than exists invokes exception.
-"""
 from products import Product
 import pytest
 
@@ -34,7 +24,7 @@ def test_create_product_invalid():
 
 def test_becomes_inactive():
     product = Product("Game boy color", price=30, quantity=1)
-    product.set_quantity(0)
+    product.quantity(0)
 
     assert product.is_active() is False
 
@@ -44,7 +34,7 @@ def test_modify_right_output():
     total_price = product.buy(5)
 
     assert total_price == 150
-    assert product.get_quantity() == 5
+    assert product.quantity() == 5
     assert product.is_active() is True
 
 
