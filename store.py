@@ -124,17 +124,16 @@ class Store:
             is_in_self_products = False
             for prod in self.products:
                 if (type(prod) is type(product) and
-                    prod.name == product.name and
-                    prod.price == product.price and
-                    prod.active == product.active and
-                    prod.promotion == product.promotion
+                        prod.name == product.name and
+                        prod.price == product.price and
+                        prod.active == product.active and
+                        prod.promotion == product.promotion
                 ):
                     is_in_self_products = True
                     break
             if not is_in_self_products:
                 products.append(product)
         return Store(products)
-
 
     def __repr__(self):
         product_reprs = []
